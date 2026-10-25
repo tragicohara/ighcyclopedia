@@ -1,0 +1,494 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ighcyclopedia</title>
+<meta name="description" content="A dictionary of the IGHMAN universe, by Tragic O'Hara.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Playfair+Display:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #f5f2ec;
+    --ink: #161514;
+    --ink-soft: #55524d;
+    --ink-faint: #8d8981;
+    --rule: #1a1918;
+    --line: #d9d4ca;
+    --card: #fbf9f5;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--paper);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.45 0 0 0 0 0.42 0 0 0 0 0.38 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    color: var(--ink);
+    font-family: "Libre Baskerville", Georgia, "Times New Roman", serif;
+    font-size: 17px;
+    line-height: 1.65;
+    display: flex;
+    flex-direction: column;
+  }
+  a { color: inherit; }
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 24px 48px;
+  }
+
+  /* watermark */
+  .watermark {
+    position: fixed;
+    top: 18px;
+    right: 22px;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 15px;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    text-decoration: none;
+    z-index: 5;
+  }
+  .watermark:hover { color: var(--ink); }
+
+  /* buttons */
+  .btn {
+    font-family: "Libre Baskerville", Georgia, serif;
+    font-size: 14px;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    padding: 9px 18px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background .15s, color .15s;
+  }
+  .btn:hover { background: var(--ink); color: var(--paper); }
+  .linkish {
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+  .linkish:hover { color: var(--ink); border-color: var(--ink); }
+
+  /* ---------- home / search ---------- */
+  .home-title {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(44px, 9vw, 76px);
+    line-height: 1.05;
+    margin: 0 0 6px;
+  }
+  .home-sub {
+    font-style: italic;
+    color: var(--ink-soft);
+    margin: 0 0 28px;
+  }
+  .search-row {
+    display: flex;
+    gap: 12px;
+    align-items: stretch;
+    margin-bottom: 14px;
+  }
+  .search {
+    flex: 1;
+    min-width: 0;
+    font-family: "Libre Baskerville", Georgia, serif;
+    font-size: 19px;
+    padding: 12px 2px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid var(--rule);
+    color: var(--ink);
+    outline: none;
+  }
+  .search::placeholder { color: var(--ink-faint); font-style: italic; }
+  .count { font-size: 13px; color: var(--ink-faint); margin: 0 0 22px; }
+  .letters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+    margin: 0 0 30px;
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 18px;
+  }
+  .letters a { text-decoration: none; color: var(--ink-soft); }
+  .letters a:hover { color: var(--ink); text-decoration: underline; }
+  .letters span { color: var(--line); }
+  .group-letter {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 34px;
+    font-weight: 400;
+    margin: 30px 0 4px;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+    scroll-margin-top: 24px;
+  }
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li { border-bottom: 1px solid var(--line); }
+  .list a {
+    display: block;
+    padding: 14px 0;
+    text-decoration: none;
+  }
+  .list .w {
+    font-family: "Playfair Display", Georgia, serif;
+    font-size: 23px;
+    margin-right: 8px;
+  }
+  .list .p { font-style: italic; font-size: 14px; color: var(--ink-soft); }
+  .list .d {
+    display: block;
+    font-size: 15px;
+    color: var(--ink-soft);
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .list a:hover .w { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .empty { font-style: italic; color: var(--ink-soft); padding: 20px 0; }
+
+  /* ---------- entry ---------- */
+  .entry-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 56px;
+  }
+  .headword {
+    font-family: "Playfair Display", Georgia, serif;
+    font-weight: 400;
+    font-size: clamp(56px, 13vw, 112px);
+    line-height: 1;
+    margin: 0 0 22px;
+    word-break: break-word;
+  }
+  .pron {
+    font-size: 21px;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin-bottom: 6px;
+  }
+  .hear {
+    font-family: "Libre Baskerville", Georgia, serif;
+    font-size: 13px;
+    color: var(--ink-soft);
+    background: none;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 4px 12px 4px 9px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .hear:hover { border-color: var(--ink); color: var(--ink); }
+  .hear svg { width: 15px; height: 15px; }
+  .pos { font-style: italic; font-size: 20px; margin-bottom: 26px; }
+  .rule { border: none; border-top: 2px solid var(--rule); margin: 0 0 30px; }
+  .sense {
+    border-left: 1px solid var(--ink-faint);
+    padding-left: 26px;
+  }
+  .def { font-size: 22px; line-height: 1.55; margin: 0 0 26px; }
+  .example { font-style: italic; font-size: 17px; color: var(--ink-soft); margin: 0; }
+  .example b { font-weight: 700; color: var(--ink); }
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 64px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .pager a { text-decoration: none; color: var(--ink-soft); }
+  .pager a:hover { color: var(--ink); }
+  .pager .next { text-align: right; margin-left: auto; }
+  .pager small { display: block; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-faint); }
+  .pager span.w { font-family: "Playfair Display", Georgia, serif; font-size: 19px; }
+
+  /* ---------- footer ---------- */
+  footer {
+    text-align: center;
+    padding: 28px 24px 36px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  footer .credit { font-style: italic; margin-bottom: 8px; }
+  footer .socials a { color: var(--ink-soft); text-decoration: none; margin: 0 8px; border-bottom: 1px solid var(--line); }
+  footer .socials a:hover { color: var(--ink); border-color: var(--ink); }
+
+  .status { font-style: italic; color: var(--ink-soft); padding: 40px 0; }
+
+  @media (max-width: 560px) {
+    main { padding: 64px 18px 36px; }
+    .watermark { top: 14px; right: 16px; font-size: 14px; }
+    .search-row { flex-direction: column; }
+    .entry-nav { margin-bottom: 40px; }
+    .sense { padding-left: 18px; }
+    .def { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<a class="watermark" href="#/">ighcyclopedia</a>
+
+<main id="app"><p class="status">Opening the dictionary…</p></main>
+
+<footer>
+  <div class="credit">From the universe of IGHMAN by <a href="https://www.tragicohara.com" target="_blank" rel="noopener">Tragic O'Hara</a></div>
+  <div class="socials">
+    <a href="https://www.tragicohara.com" target="_blank" rel="noopener">Website</a>
+    <a href="https://www.instagram.com/mrtragicohara" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://www.tiktok.com/@mrtragicohara" target="_blank" rel="noopener">TikTok</a>
+  </div>
+</footer>
+
+<script>
+// The published Google Sheet (read-only CSV). Edit the sheet and the site follows.
+const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSBx6MQRsqBIq9K14JX15Ket1_lAu4cRRtBUkOjZ7UvS5X6UWOg7MdLVDDSy0sXQR13qZyTdN-6zOhi/pub?gid=0&single=true&output=csv";
+
+const app = document.getElementById("app");
+let entries = [];
+let lastQuery = "";
+
+function esc(s) {
+  return String(s || "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+}
+
+function slugify(s) {
+  return String(s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .replace(/['’]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+}
+
+function parseCSV(text) {
+  const rows = []; let row = [], field = "", inQ = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (inQ) {
+      if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQ = false; }
+      else field += c;
+    } else if (c === '"') inQ = true;
+    else if (c === ",") { row.push(field); field = ""; }
+    else if (c === "\n") { row.push(field); rows.push(row); row = []; field = ""; }
+    else if (c !== "\r") field += c;
+  }
+  if (field !== "" || row.length) { row.push(field); rows.push(row); }
+  return rows;
+}
+
+function toEntries(rows) {
+  const head = (rows.shift() || []).map(h => h.trim().toLowerCase());
+  const col = name => head.findIndex(h => h.includes(name));
+  const iW = col("word") === col("word type") ? head.indexOf("word") : col("word");
+  const idx = {
+    word: head.indexOf("word") > -1 ? head.indexOf("word") : iW,
+    def: col("definition"),
+    pron: col("pronunciation"),
+    pos: col("type"),
+    ex: col("example")
+  };
+  const get = (r, i) => (i > -1 && r[i] ? r[i].trim() : "");
+  const seen = {};
+  return rows
+    .map(r => ({ word: get(r, idx.word), def: get(r, idx.def), pron: get(r, idx.pron), pos: get(r, idx.pos), ex: get(r, idx.ex) }))
+    .filter(e => e.word)
+    .sort((a, b) => a.word.localeCompare(b.word, "en", { sensitivity: "base" }))
+    .map(e => {
+      let s = slugify(e.word) || "word";
+      if (seen[s]) s += "-" + (++seen[s]); else seen[s] = 1;
+      return { ...e, slug: s };
+    });
+}
+
+function firstLetter(w) {
+  const c = w.trim().charAt(0).toUpperCase();
+  return /[A-Z]/.test(c) ? c : "#";
+}
+
+const speaker = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+const canSpeak = "speechSynthesis" in window;
+
+function speak(e) {
+  if (!canSpeak) return;
+  const text = (e.pron || e.word).replace(/[-–]/g, " ").toLowerCase();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "en-GB";
+  u.rate = 0.85;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(u);
+}
+
+function randomSlug(except) {
+  if (!entries.length) return "";
+  if (entries.length === 1) return entries[0].slug;
+  let e;
+  do { e = entries[Math.floor(Math.random() * entries.length)]; } while (e.slug === except);
+  return e.slug;
+}
+
+/* ---------- views ---------- */
+
+function renderHome() {
+  document.title = "Ighcyclopedia";
+  app.innerHTML = `
+    <h1 class="home-title">The Dictionary</h1>
+    <p class="home-sub">Words, worlds and swearing from the IGHMAN universe.</p>
+    <div class="search-row">
+      <input class="search" id="q" type="search" placeholder="Search for a word…" autocomplete="off" aria-label="Search the dictionary" value="${esc(lastQuery)}">
+      <a class="btn" href="#/random">Random word</a>
+    </div>
+    <p class="count" id="count"></p>
+    <nav class="letters" id="letters" aria-label="Jump to letter"></nav>
+    <div id="results"></div>`;
+  const q = document.getElementById("q");
+  q.addEventListener("input", () => { lastQuery = q.value; renderList(); });
+  q.addEventListener("keydown", ev => {
+    if (ev.key === "Enter") {
+      const first = document.querySelector("#results .list a");
+      if (first) location.hash = first.getAttribute("href");
+    }
+  });
+  renderList();
+}
+
+function renderList() {
+  const term = lastQuery.trim().toLowerCase();
+  const list = term
+    ? entries.filter(e => e.word.toLowerCase().includes(term) || e.def.toLowerCase().includes(term))
+        .sort((a, b) => {
+          const as = a.word.toLowerCase().startsWith(term), bs = b.word.toLowerCase().startsWith(term);
+          return as === bs ? 0 : as ? -1 : 1;
+        })
+    : entries;
+
+  const count = document.getElementById("count");
+  count.textContent = term
+    ? `${list.length} ${list.length === 1 ? "match" : "matches"}`
+    : `${entries.length} words and counting`;
+
+  const letters = document.getElementById("letters");
+  const results = document.getElementById("results");
+  const item = e => `<li><a href="#/word/${e.slug}"><span class="w">${esc(e.word)}</span><span class="p">${esc(e.pos)}</span><span class="d">${esc(e.def)}</span></a></li>`;
+
+  if (!list.length) {
+    letters.innerHTML = "";
+    results.innerHTML = `<p class="empty">No such word… yet. Try another, or take a <a href="#/random">random word</a>.</p>`;
+    return;
+  }
+
+  if (term) {
+    letters.innerHTML = "";
+    results.innerHTML = `<ul class="list">${list.map(item).join("")}</ul>`;
+    return;
+  }
+
+  const groups = {};
+  list.forEach(e => (groups[firstLetter(e.word)] ||= []).push(e));
+  letters.innerHTML = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
+    .map(L => groups[L] ? `<a href="#" data-l="${L}">${L}</a>` : `<span>${L}</span>`).join("");
+  letters.querySelectorAll("a").forEach(a => a.addEventListener("click", ev => {
+    ev.preventDefault();
+    const t = document.getElementById("letter-" + a.dataset.l);
+    if (t) t.scrollIntoView({ behavior: "smooth" });
+  }));
+  results.innerHTML = Object.keys(groups).sort().map(L =>
+    `<h2 class="group-letter" id="letter-${L}">${L}</h2><ul class="list">${groups[L].map(item).join("")}</ul>`
+  ).join("");
+}
+
+function renderEntry(slug) {
+  const i = entries.findIndex(e => e.slug === slug);
+  if (i < 0) {
+    document.title = "Not found · Ighcyclopedia";
+    app.innerHTML = `
+      <div class="entry-nav"><a class="linkish" href="#/">← All words</a></div>
+      <p class="status">That word isn't in the dictionary… yet.</p>
+      <a class="btn" href="#/random">Random word</a>`;
+    return;
+  }
+  const e = entries[i];
+  const prev = entries[i - 1], next = entries[i + 1];
+  document.title = `${e.word} · Ighcyclopedia`;
+  app.innerHTML = `
+    <div class="entry-nav">
+      <a class="linkish" href="#/">← All words</a>
+      <a class="btn" href="#/random">Random word</a>
+    </div>
+    <article>
+      <h1 class="headword">${esc(e.word)}</h1>
+      ${e.pron || canSpeak ? `<div class="pron">
+        ${e.pron ? `<span>[${esc(e.pron)}]</span>` : ""}
+        ${canSpeak ? `<button class="hear" id="hear" type="button">${speaker}hear it</button>` : ""}
+      </div>` : ""}
+      ${e.pos ? `<div class="pos">${esc(e.pos)}.</div>` : ""}
+      <hr class="rule">
+      <div class="sense">
+        <p class="def">${esc(e.def)}</p>
+        ${e.ex ? `<p class="example"><b>in use:</b> ${esc(e.ex)}</p>` : ""}
+      </div>
+    </article>
+    <nav class="pager">
+      ${prev ? `<a href="#/word/${prev.slug}"><small>Previous</small><span class="w">${esc(prev.word)}</span></a>` : "<span></span>"}
+      ${next ? `<a class="next" href="#/word/${next.slug}"><small>Next</small><span class="w">${esc(next.word)}</span></a>` : ""}
+    </nav>`;
+  const h = document.getElementById("hear");
+  if (h) h.addEventListener("click", () => speak(e));
+}
+
+function route() {
+  const hash = location.hash.replace(/^#\/?/, "");
+  if (hash === "random") {
+    const cur = sessionStorageSafe("last");
+    location.replace("#/word/" + randomSlug(cur));
+    return;
+  }
+  if (hash.startsWith("word/")) {
+    const slug = decodeURIComponent(hash.slice(5));
+    sessionStorageSafe("last", slug);
+    renderEntry(slug);
+  } else {
+    renderHome();
+  }
+  window.scrollTo(0, 0);
+}
+
+function sessionStorageSafe(key, val) {
+  try {
+    if (val === undefined) return sessionStorage.getItem(key) || "";
+    sessionStorage.setItem(key, val);
+  } catch (err) { return ""; }
+}
+
+async function start() {
+  try {
+    const res = await fetch(SHEET_URL + "&t=" + Date.now(), { cache: "no-store" });
+    if (!res.ok) throw new Error(res.status);
+    entries = toEntries(parseCSV(await res.text()));
+    if (!entries.length) throw new Error("empty");
+    window.addEventListener("hashchange", route);
+    route();
+  } catch (err) {
+    app.innerHTML = `<p class="status">The dictionary couldn't be opened just now. Please try again in a moment.</p>`;
+  }
+}
+
+start();
+</script>
+</body>
+</html>
